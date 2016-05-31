@@ -96,5 +96,15 @@ object List { // `List` companion object. Contains functions for creating and wo
 
   def reverse[A](l: List[A]) = foldLeft(l, Nil: List[A])((acc, item) => Cons(item, acc))
 
+  def foldLeftFromFoldRight[A,B](l: List[A], z: B)(f: (B, A) => B): B = {
+    def identity[BB] = (bb: BB) => bb
+    foldRight(l, identity[B])((a, g) => b => g(f(b, a)))(z)
+  }
+
+  def foldRightFromFoldLeft[A,B](as: List[A], z: B)(f: (A, B) => B): B = {
+    def identity[BB] = (bb: BB) => bb
+    foldLeft(as, identity[B])((g, a) => b => g(f(a, b)))(z)
+  }
+
   def map[A,B](l: List[A])(f: A => B): List[B] = sys.error("todo")
 }
