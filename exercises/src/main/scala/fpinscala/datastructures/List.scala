@@ -115,4 +115,11 @@ object List { // `List` companion object. Contains functions for creating and wo
   def doubleToString(doubles: List[Double]): List[String] = foldRight(doubles, Nil: List[String])((d, tail) => Cons(d.toString, tail))
 
   def map[A, B](l: List[A])(f: A => B): List[B] = foldRight(l, Nil: List[B])((head, tail) => Cons(f(head), tail))
+
+  def filter[A](as: List[A], predicate: (A => Boolean)): List[A] = foldRight(as, Nil: List[A]) { (item, filtered) =>
+    if (predicate(item)) filtered
+    else Cons(item, filtered)
+  }
+
+  def keepEven(ints: List[Int]): List[Int] = filter(ints, (i: Int) => i % 2 == 0)
 }
