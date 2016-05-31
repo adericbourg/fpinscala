@@ -122,4 +122,6 @@ object List { // `List` companion object. Contains functions for creating and wo
   }
 
   def keepEven(ints: List[Int]): List[Int] = filter(ints, (i: Int) => i % 2 == 0)
+
+  def flatMap[A, B](l: List[A])(f: A => List[B]): List[B] = foldRight(l, Nil: List[B])((item, acc) => concat(map(l)(f)))
 }
